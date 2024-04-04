@@ -61,6 +61,86 @@ class HangmanGUI:
             messagebox.showinfo("Hangman", f"The last letter of the word is '{self.word[-1]}'")
             messagebox.showinfo("Hangman", f"The first letter of the word is '{self.word[0]}'")
 
+ def display_hangman(self):
+        stages = [
+            """
+                 --------
+                 |      |
+                 |      O
+                 |     \|/
+                 |      |
+                 |     / \
+                ---
+            """,
+            """
+                 --------
+                 |      |
+                 |      O
+                 |     \|/
+                 |      |
+                 |     / 
+                ---
+            """,
+            """
+                 --------
+                 |      |
+                 |      O
+                 |     \|/
+                 |      |
+                 |      
+                ---
+            """,
+            """
+                 --------
+                 |      |
+                 |      O
+                 |     \|
+                 |      |
+                 |     
+                ---
+            """,
+            """
+                 --------
+                 |      |
+                 |      O
+                 |      |
+                 |      |
+                 |     
+                ---
+            """,
+            """
+                 --------
+                 |      |
+                 |      O
+                 |    
+                 |      
+                 |     
+                ---
+            """,
+            """
+                 --------
+                 |      |
+                 |      
+                 |    
+                 |      
+                 |     
+                ---
+            """
+        ]
+        return stages[self.attempts]
+
+ def reset_game(self):
+        self.current_word_index = 0
+        self.word = self.choose_word()
+        self.guessed_letters = set()
+        self.hints_used = 0
+        self.attempts = 6
+        self.word_label.config(text=self.display_word())
+        self.score = 0
+        self.score_label.config(text=f"Score: {self.score}")
+        self.canvas.delete("all")
+
+
 
 def main():
     root = tk.Tk()
