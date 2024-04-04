@@ -38,6 +38,86 @@ class HangmanGUI:
         self.new_game_button = tk.Button(self.master, text="New Game", command=self.reset_game)
         self.new_game_button.pack()
 
+ def display_hangman(self):
+        stages = [
+            """
+                 --------
+                 |      |
+                 |      O
+                 |     \|/
+                 |      |
+                 |     / \
+                ---
+            """,
+            """
+                 --------
+                 |      |
+                 |      O
+                 |     \|/
+                 |      |
+                 |     / 
+                ---
+            """,
+            """
+                 --------
+                 |      |
+                 |      O
+                 |     \|/
+                 |      |
+                 |      
+                ---
+            """,
+            """
+                 --------
+                 |      |
+                 |      O
+                 |     \|
+                 |      |
+                 |     
+                ---
+            """,
+            """
+                 --------
+                 |      |
+                 |      O
+                 |      |
+                 |      |
+                 |     
+                ---
+            """,
+            """
+                 --------
+                 |      |
+                 |      O
+                 |    
+                 |      
+                 |     
+                ---
+            """,
+            """
+                 --------
+                 |      |
+                 |      
+                 |    
+                 |      
+                 |     
+                ---
+            """
+        ]
+        return stages[self.attempts]
+
+ def reset_game(self):
+        self.current_word_index = 0
+        self.word = self.choose_word()
+        self.guessed_letters = set()
+        self.hints_used = 0
+        self.attempts = 6
+        self.word_label.config(text=self.display_word())
+        self.score = 0
+        self.score_label.config(text=f"Score: {self.score}")
+        self.canvas.delete("all")
+
+
 
 def main():
     root = tk.Tk()
