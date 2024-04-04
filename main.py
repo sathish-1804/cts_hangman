@@ -37,6 +37,43 @@ class HangmanGUI:
 
         self.new_game_button = tk.Button(self.master, text="New Game", command=self.reset_game)
         self.new_game_button.pack()
+    def handle_guess(self):
+        guess = self.guess_entry.get().lower()
+        self.guess_entry.delete(0, tk.END)
+
+        if guess in self.guessed_letters:
+            messagebox.showinfo("Hangman", "You already guessed that letter.")
+            return
+
+        self.guessed_letters.add(guess)
+
+        if guess in self.word:
+            messagebox.showinfo("Hangman", "Correct guess!")
+            self.word_label.config(text=self.display_word())
+            if self.display_word() == self.word:
+                messagebox.showinfo("Hangman", f"Congratulations! You guessed the word: {self.word}")
+                self.score += 1
+                self.score_label.config(text=f"Score: {self.score}")
+                self.current_word_index += 1
+                if self.current_word_index < len(self.words):
+                    self.word = self.choose_word()
+                    self.guessed_letters = set()
+                    self.hints_used = 0
+                    self.attempts = 6
+                    self.word_label.config(text=self.display_word())
+                else:
+                    messagebox.showinfo("Hangman", "You've guessed all words! Game over.")
+                    self.reset_game()
+        else:
+            messagebox.showinfo("Hangman", "Incorrect guess.")
+            self.attempts -= 1
+            self.canvas.delete("all")
+            self.canvas.create_text(100, 100, text=self.display_hangman())
+            if self.attempts == 0:
+                messagebox.showinfo("Hangman", f"Sorry, you ran out of attempts. The word was: {self.word}")
+                self.reset_game()
+
+
 
 
 def main():
