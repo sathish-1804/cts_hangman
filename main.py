@@ -37,6 +37,29 @@ class HangmanGUI:
 
         self.new_game_button = tk.Button(self.master, text="New Game", command=self.reset_game)
         self.new_game_button.pack()
+  
+    def choose_word(self):
+        return self.words[self.current_word_index]
+
+    def display_word(self):
+        displayed_word = ''
+        for letter in self.word:
+            if letter in self.guessed_letters:
+                displayed_word += letter
+            else:
+                displayed_word += '_'
+        return displayed_word
+
+     def provide_hint(self):
+        if self.hints_used == 0:
+            messagebox.showinfo("Hangman", f"The number of words is {len(self.words)}")
+            self.hints_used += 1
+        elif self.hints_used == 1:
+            messagebox.showinfo("Hangman", f"The last letter of the word is '{self.word[-1]}'")
+            self.hints_used += 1
+        else:
+            messagebox.showinfo("Hangman", f"The last letter of the word is '{self.word[-1]}'")
+            messagebox.showinfo("Hangman", f"The first letter of the word is '{self.word[0]}'")
 
 
 def main():
