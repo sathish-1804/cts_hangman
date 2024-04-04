@@ -37,6 +37,7 @@ class HangmanGUI:
 
         self.new_game_button = tk.Button(self.master, text="New Game", command=self.reset_game)
         self.new_game_button.pack()
+        
     def handle_guess(self):
         guess = self.guess_entry.get().lower()
         self.guess_entry.delete(0, tk.END)
@@ -72,7 +73,108 @@ class HangmanGUI:
             if self.attempts == 0:
                 messagebox.showinfo("Hangman", f"Sorry, you ran out of attempts. The word was: {self.word}")
                 self.reset_game()
+  
+    def choose_word(self):
+        return self.words[self.current_word_index]
 
+    def display_word(self):
+        displayed_word = ''
+        for letter in self.word:
+            if letter in self.guessed_letters:
+                displayed_word += letter
+            else:
+                displayed_word += '_'
+        return displayed_word
+
+     def provide_hint(self):
+        if self.hints_used == 0:
+            messagebox.showinfo("Hangman", f"The number of words is {len(self.words)}")
+            self.hints_used += 1
+        elif self.hints_used == 1:
+            messagebox.showinfo("Hangman", f"The last letter of the word is '{self.word[-1]}'")
+            self.hints_used += 1
+        else:
+            messagebox.showinfo("Hangman", f"The last letter of the word is '{self.word[-1]}'")
+            messagebox.showinfo("Hangman", f"The first letter of the word is '{self.word[0]}'")
+
+ def display_hangman(self):
+        stages = [
+            """
+                 --------
+                 |      |
+                 |      O
+                 |     \|/
+                 |      |
+                 |     / \
+                ---
+            """,
+            """
+                 --------
+                 |      |
+                 |      O
+                 |     \|/
+                 |      |
+                 |     / 
+                ---
+            """,
+            """
+                 --------
+                 |      |
+                 |      O
+                 |     \|/
+                 |      |
+                 |      
+                ---
+            """,
+            """
+                 --------
+                 |      |
+                 |      O
+                 |     \|
+                 |      |
+                 |     
+                ---
+            """,
+            """
+                 --------
+                 |      |
+                 |      O
+                 |      |
+                 |      |
+                 |     
+                ---
+            """,
+            """
+                 --------
+                 |      |
+                 |      O
+                 |    
+                 |      
+                 |     
+                ---
+            """,
+            """
+                 --------
+                 |      |
+                 |      
+                 |    
+                 |      
+                 |     
+                ---
+            """
+        ]
+        return stages[self.attempts]
+
+ def reset_game(self):
+        self.current_word_index = 0
+        self.word = self.choose_word()
+        self.guessed_letters = set()
+        self.hints_used = 0
+        self.attempts = 6
+        self.word_label.config(text=self.display_word())
+        self.score = 0
+        self.score_label.config(text=f"Score: {self.score}")
+        self.canvas.delete("all")
 
 
 
